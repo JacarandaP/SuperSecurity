@@ -6,7 +6,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.ComponentScan;
 
 
-@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+//@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
+@SpringBootApplication
 public class SecurityApplication {
 
     public static void main(String[] args) {
