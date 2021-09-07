@@ -2,6 +2,7 @@ package spring.security;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,8 +22,13 @@ import java.time.Duration;
 @Configuration
 public class AppConfiguration {
 
+    @Value("${security.key}")
     private String key;
+
+    @Value("${security.duration}")
     private Integer duration;
+
+    @Value("${security.algorithm}")
     private String algorithm;
 
     @Bean
