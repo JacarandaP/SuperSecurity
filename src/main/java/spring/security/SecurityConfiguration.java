@@ -5,14 +5,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import spring.security.domain.UserCredentials;
 import spring.security.domain.UserRepository;
 import spring.security.security.JWTAuthenticationFilter;
 import spring.security.security.JWTIssuer;
+import spring.security.security.UserAuth;
 
 /**
  * Created by Jacaranda Perez
@@ -55,8 +57,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService((username) -> userRepository.findById(username).orElseThrow(()->
-                new UsernameNotFoundException("user not found"))).passwordEncoder(passwordEncoder);
+        auth.userDetailsService((username) -> new UserAuth(userRepository.findByUsername(username).orElseThrow(()->
+                new UsernameNotFoundException("user not found")).getUsername(),
+                userRepository.findByUsername(username).orElseThrow(()->
+                        new UsernameNotFoundException("user not found")).getPassword(),
+                userRepository.findByUsername(username).orElseThrow(()->
+                        new UsernameNotFoundException("user not found")).getRoleType())).
+                passwordEncoder(passwordEncoder);
 
     }
 }
