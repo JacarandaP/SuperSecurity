@@ -37,7 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
+        //super.configure(http);
 
         final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(), jwtIssuer, new ObjectMapper());
 
@@ -47,10 +47,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/")
-                .permitAll()
-                .and()
+                .antMatchers("/**","/login")
+                .permitAll().and()
                 .addFilter(filter)
+                //.anyRequest().authenticated()
+
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
@@ -64,6 +65,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 userRepository.findByUsername(username).orElseThrow(()->
                         new UsernameNotFoundException("user not found")).getRoleType())).
                 passwordEncoder(passwordEncoder);
+
+
 
     }
 }

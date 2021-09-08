@@ -38,7 +38,9 @@ class JWTIssuerTest {
 
     @Test
     void createToken() {
-       String actual = jwtIssuer.createToken(new User("name", "password", new ArrayList<>()));
+       String actual = jwtIssuer.createToken(new UserAuth("name", "password","role"));
         Assertions.assertEquals("", actual);
     }
+
+
 }

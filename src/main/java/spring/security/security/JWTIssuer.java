@@ -1,7 +1,6 @@
 package spring.security.security;
 
 import io.jsonwebtoken.Jwts;
-import org.springframework.security.core.userdetails.User;
 
 import java.security.Key;
 import java.time.Duration;
@@ -24,7 +23,7 @@ public class JWTIssuer {
         this.duration = duration;
     }
 
-    public String createToken(User user){
+    public String createToken(UserAuth user){
 
         return Jwts.builder()
                 .setSubject(user.getUsername())
