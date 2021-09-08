@@ -1,0 +1,15 @@
+security:
+  key: ${SECURITY_SECRET_KEY}
+  algorithm: ${SECURITY_SECRET_ALGORITHM}
+  duration: ${SECURITY_SECRET_DURATION}
+
+spring:
+  jpa:
+    hibernate.ddl-auto: ${SPRING_HIBERNATE_DDL}
+    properties:
+      hibernate.dialect: ${SPRING_HIBERNATE_DIALECT}
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/${SPRING_DATABASE_NAME}
+    username: ${SPRING_DATABASE_USERNAME}
+    password: ${SPRING_DATABASE_PASSWORD}
+
