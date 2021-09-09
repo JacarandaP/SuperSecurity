@@ -16,10 +16,16 @@ import spring.security.security.JWTAuthenticationFilter;
 import spring.security.security.JWTIssuer;
 import spring.security.security.UserAuth;
 
+import java.util.Optional;
+
 /**
  * Created by Jacaranda Perez
  * Date: 2021-09-07
  * Project: Security
+ */
+
+/**
+ * this is like the "entrance" to our system
  */
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -34,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.passwordEncoder = passwordEncoder;
         this.jwtIssuer = jwtIssuer;
     }
-
+    //we decide here how the app acts with http-> which endpoints are open, which "filters" we want to apply to, how will cors and csrf will be....
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //super.configure(http);
@@ -47,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers("/**","/login")
+                .antMatchers("/**", "/login")
                 .permitAll().and()
                 .addFilter(filter)
                 //.anyRequest().authenticated()
@@ -55,18 +61,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
     }
-
+    //when authenticationmagenerbuilder is called we will "build" an authentication, using userdetailsService "loadbyusername()" method
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService((username) -> new UserAuth(userRepository.findByUsername(username).orElseThrow(()->
-                new UsernameNotFoundException("user not found")).getUsername(),
-                userRepository.findByUsername(username).orElseThrow(()->
-                        new UsernameNotFoundException("user not found")).getPassword(),
-                userRepository.findByUsername(username).orElseThrow(()->
-                        new UsernameNotFoundException("user not found")).getRoleType())).
-                passwordEncoder(passwordEncoder);
+       //need more refractoring
+        auth.userDetailsService(u -> new UserAuth(getUserCredentials(u).getUsername(),
+                getUserCredentials(u).getPassword(),
+                getUserCredentials(u).getRoleType()))
+                .passwordEncoder(passwordEncoder);
 
+    }
 
-
+    private UserCredentials getUserCredentials(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() ->
+                new UsernameNotFoundException("user not found"));
     }
 }
