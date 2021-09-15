@@ -8,6 +8,7 @@ spring:
     hibernate.ddl-auto: ${SPRING_HIBERNATE_DDL}
     properties:
       hibernate.dialect: ${SPRING_HIBERNATE_DIALECT}
+      hibernate.jdbc.lob.non_contextual_creation: true
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/${SPRING_DATABASE_NAME}
     username: ${SPRING_DATABASE_USERNAME}
