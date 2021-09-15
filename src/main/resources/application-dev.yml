@@ -9,7 +9,7 @@ spring:
     properties:
       hibernate.dialect: ${SPRING_HIBERNATE_DIALECT}
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/${SPRING_DATABASE_NAME}
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/${SPRING_DATABASE_NAME}
     username: ${SPRING_DATABASE_USERNAME}
     password: ${SPRING_DATABASE_PASSWORD}
 
